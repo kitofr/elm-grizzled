@@ -63,6 +63,8 @@ type Threat
     | Siren
     | Shell
 
+type alias LuckyCharm = Threat
+type alias Speach = Threat
 
 type alias GrizzledCard =
     { name : Grizzled
