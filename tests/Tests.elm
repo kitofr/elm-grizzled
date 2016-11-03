@@ -5,30 +5,29 @@ import List exposing (..)
 import Expect
 import String
 import Types exposing (..)
+import NonEmptyList exposing (..)
 
+
+nonEmptyListTests =
+    describe "Non empty list"
+    [ test "has at least one item" <|
+        \() ->
+            let
+                list =
+                    NonEmptyList "a" []
+            in
+                Expect.equal list.head "a"
+    , test "asList creates a list" <|
+        \() ->
+            let
+                list =
+                    NonEmptyList "a" [ "b" ]
+            in
+                Expect.equal (asList list) [ "a", "b" ]
+    ]
 
 all : Test
 all =
     describe "Grizzled"
-        [ describe "A threats card "
-            [ test "has at least one threat" <|
-                \() ->
-                    let
-                        card =
-                            (Threats (ThreatList Rain []))
-                    in
-                        case card of
-                            Threats list ->
-                                let
-                                    l =
-                                        getThreats list
-
-                                    head =
-                                        nth 0 l Winter
-                                in
-                                    Expect.equal head Rain
-
-                            _ ->
-                                Expect.equal 1 2
-            ]
+        [ nonEmptyListTests
         ]

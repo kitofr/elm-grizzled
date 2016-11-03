@@ -2,26 +2,48 @@ module Types exposing (..)
 
 import List exposing (..)
 import Random exposing (..)
+import NonEmptyList exposing (..)
 
 
-getThreats : ThreatList -> List Threat
+getThreats : NonEmptyList Threat -> List Threat
 getThreats list =
-    list.head :: list.rest
+    asList list
 
 
+nth : Int -> List a -> a -> a
 nth n lst def =
     List.drop n lst |> List.head |> Maybe.withDefault def
 
 
-type alias ThreatList =
-    { head : Threat
-    , rest : List Threat
-    }
+type alias NoMansLand =
+    { cards : List TrialCard }
+
+
+type alias MoraleDrop =
+    Int
+
+
+type alias MissionIntensity =
+    Int
+
+
+type GameState
+    = FlowerOfTheGun
+    | NewMission MissionIntensity
+    | MissionFailed MoraleDrop
+    | MissionComplete MoraleDrop
+
+
+type TurnEvent
+    = Play TrialCard
+    | Hold Speach
+    | Turn LuckyCharm
+    | Give SupportTile
 
 
 type ThreatsCard
-    = Threats ThreatList
-    | Trap ThreatList
+    = Threats (NonEmptyList Threat)
+    | Trap (NonEmptyList Threat)
 
 
 type TrialCard
@@ -59,12 +81,18 @@ type Threat
     = Rain
     | Winter
     | Night
-    | Gas
-    | Siren
+    | Mask
+    | Whistle
     | Shell
 
-type alias LuckyCharm = Threat
-type alias Speach = Threat
+
+type alias LuckyCharm =
+    Threat
+
+
+type alias Speach =
+    Threat
+
 
 type alias GrizzledCard =
     { name : Grizzled
@@ -80,4 +108,8 @@ type alias Player =
     { persona : GrizzledCard
     , supportTiles : List SupportTile
     , missionLeader : Maybe MissionLeader
+    , hand : List TrialCard
+    , hardKnocks :
+        List TrialCard
+        -- This should be a list of most 3 and must be HardKnocks
     }

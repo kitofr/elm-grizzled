@@ -12903,6 +12903,14 @@ var _rtfeldman$elm_css$Css_Namespace$namespace = F2(
 			snippets);
 	});
 
+var _user$project$NonEmptyList$asList = function (nonEmpty) {
+	return A2(_elm_lang$core$List_ops['::'], nonEmpty.head, nonEmpty.rest);
+};
+var _user$project$NonEmptyList$NonEmptyList = F2(
+	function (a, b) {
+		return {head: a, rest: b};
+	});
+
 var _user$project$Types$nth = F3(
 	function (n, lst, def) {
 		return A2(
@@ -12912,20 +12920,41 @@ var _user$project$Types$nth = F3(
 				A2(_elm_lang$core$List$drop, n, lst)));
 	});
 var _user$project$Types$getThreats = function (list) {
-	return A2(_elm_lang$core$List_ops['::'], list.head, list.rest);
+	return _user$project$NonEmptyList$asList(list);
 };
-var _user$project$Types$ThreatList = F2(
-	function (a, b) {
-		return {head: a, rest: b};
-	});
+var _user$project$Types$NoMansLand = function (a) {
+	return {cards: a};
+};
 var _user$project$Types$GrizzledCard = F2(
 	function (a, b) {
 		return {name: a, luckyCharm: b};
 	});
-var _user$project$Types$Player = F3(
-	function (a, b, c) {
-		return {persona: a, supportTiles: b, missionLeader: c};
+var _user$project$Types$Player = F5(
+	function (a, b, c, d, e) {
+		return {persona: a, supportTiles: b, missionLeader: c, hand: d, hardKnocks: e};
 	});
+var _user$project$Types$MissionComplete = function (a) {
+	return {ctor: 'MissionComplete', _0: a};
+};
+var _user$project$Types$MissionFailed = function (a) {
+	return {ctor: 'MissionFailed', _0: a};
+};
+var _user$project$Types$NewMission = function (a) {
+	return {ctor: 'NewMission', _0: a};
+};
+var _user$project$Types$FlowerOfTheGun = {ctor: 'FlowerOfTheGun'};
+var _user$project$Types$Give = function (a) {
+	return {ctor: 'Give', _0: a};
+};
+var _user$project$Types$Turn = function (a) {
+	return {ctor: 'Turn', _0: a};
+};
+var _user$project$Types$Hold = function (a) {
+	return {ctor: 'Hold', _0: a};
+};
+var _user$project$Types$Play = function (a) {
+	return {ctor: 'Play', _0: a};
+};
 var _user$project$Types$Trap = function (a) {
 	return {ctor: 'Trap', _0: a};
 };
@@ -12951,8 +12980,8 @@ var _user$project$Types$Gustave = {ctor: 'Gustave'};
 var _user$project$Types$Lazare = {ctor: 'Lazare'};
 var _user$project$Types$Charles = {ctor: 'Charles'};
 var _user$project$Types$Shell = {ctor: 'Shell'};
-var _user$project$Types$Siren = {ctor: 'Siren'};
-var _user$project$Types$Gas = {ctor: 'Gas'};
+var _user$project$Types$Whistle = {ctor: 'Whistle'};
+var _user$project$Types$Mask = {ctor: 'Mask'};
 var _user$project$Types$Night = {ctor: 'Night'};
 var _user$project$Types$Winter = {ctor: 'Winter'};
 var _user$project$Types$Rain = {ctor: 'Rain'};
