@@ -12922,7 +12922,7 @@ var _user$project$Types$nth = F3(
 var _user$project$Types$getThreats = function (list) {
 	return _user$project$NonEmptyList$asList(list);
 };
-var _user$project$Types$ThreatsCard = F2(
+var _user$project$Types$Card = F2(
 	function (a, b) {
 		return {threats: a, trap: b};
 	});
@@ -12968,8 +12968,8 @@ var _user$project$Types$Phobia = function (a) {
 	return {ctor: 'Phobia', _0: a};
 };
 var _user$project$Types$MerryChristmas = {ctor: 'MerryChristmas'};
-var _user$project$Types$Threats = function (a) {
-	return {ctor: 'Threats', _0: a};
+var _user$project$Types$ThreatsCard = function (a) {
+	return {ctor: 'ThreatsCard', _0: a};
 };
 var _user$project$Types$Hardknock = {ctor: 'Hardknock'};
 var _user$project$Types$DoubleRight = {ctor: 'DoubleRight'};

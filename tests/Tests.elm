@@ -43,7 +43,7 @@ defaultGame =
          twoPlayers
          InWar
          [ MerryChristmas ]
-         [(Threats (ThreatsCard (NonEmptyList Rain []) False)) ]
+         [(ThreatsCard (Card (NonEmptyList Rain []) False)) ]
          []
          []
     )

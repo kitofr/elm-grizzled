@@ -15,7 +15,8 @@ nth n lst def =
     List.drop n lst |> List.head |> Maybe.withDefault def
 
 
-type alias NoMansLand = List TrialCard
+type alias NoMansLand =
+    List TrialCard
 
 
 type alias RemainingCardsInHand =
@@ -56,12 +57,14 @@ type TurnEvent
     | Withdraw SupportTile
 
 
-type alias Trap = Bool
+type alias Trap =
+    Bool
 
-type alias ThreatsCard =
-  { threats : (NonEmptyList Threat)
-  , trap : Trap
-  }
+
+type alias Card =
+    { threats : NonEmptyList Threat
+    , trap : Trap
+    }
 
 
 type Hardknock
@@ -69,9 +72,10 @@ type Hardknock
     | Trauma Threat
     | Mute
 
+
 type TrialCard
     = Hardknock
-    | Threats ThreatsCard 
+    | ThreatsCard Card
     | MerryChristmas
 
 
@@ -122,8 +126,8 @@ type alias MissionLeader =
     Bool
 
 
-type alias HardKnockList
-    = List Hardknock
+type alias HardKnockList =
+    List Hardknock
 
 
 type GameState
