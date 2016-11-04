@@ -15,11 +15,10 @@ nth n lst def =
     List.drop n lst |> List.head |> Maybe.withDefault def
 
 
-type alias NoMansLand =
-    { cards : List TrialCard }
+type alias NoMansLand = List TrialCard
 
 
-type alias MoraleDrop =
+type alias RemainingCardsInHand =
     Int
 
 
@@ -27,34 +26,53 @@ type alias MissionIntensity =
     Int
 
 
-type GameState
-    = FlowerOfTheGun
-    | NewMission MissionIntensity
-    | MissionFailed MoraleDrop
-    | MissionComplete MoraleDrop
+type alias SupportList =
+    List { player : Player, supportTile : SupportTile }
+
+
+type alias PlayerList =
+    NonEmptyList Player
+
+
+type alias TrialsPile =
+    List TrialCard
+
+
+type alias MoralePile =
+    List TrialCard
+
+
+type MissionStep
+    = Preparation MissionIntensity
+    | TheMission
+    | Support SupportList
+    | MoraleDrop RemainingCardsInHand
 
 
 type TurnEvent
     = Play TrialCard
-    | Hold Speach
-    | Turn LuckyCharm
-    | Give SupportTile
+    | Use LuckyCharm
+    | Make Speach
+    | Withdraw SupportTile
 
 
-type ThreatsCard
-    = Threats (NonEmptyList Threat)
-    | Trap (NonEmptyList Threat)
+type alias Trap = Bool
 
+type alias ThreatsCard =
+  { threats : (NonEmptyList Threat)
+  , trap : Trap
+  }
+
+
+type Hardknock
+    = Phobia Threat
+    | Trauma Threat
+    | Mute
 
 type TrialCard
     = Hardknock
-    | ThreatsCard
-
-
-type Card
-    = TrialCard
-    | PeaceCard
-    | MonumentCard
+    | Threats ThreatsCard 
+    | MerryChristmas
 
 
 type SupportTile
@@ -64,7 +82,7 @@ type SupportTile
     | DoubleRight
 
 
-type SpeechToken
+type SpeachToken
     = Speach Threat
 
 
@@ -104,12 +122,32 @@ type alias MissionLeader =
     Bool
 
 
+type alias HardKnockList
+    = List Hardknock
+
+
+type GameState
+    = InWar
+    | Peace
+    | Monument
+
+
+type alias Game =
+    { players : PlayerList
+    , state : GameState
+    , trailsPile : TrialsPile
+    , moralePile : MoralePile
+    , noMansLand : NoMansLand
+    , speachTokens : List SpeachToken
+    }
+
+
 type alias Player =
     { persona : GrizzledCard
     , supportTiles : List SupportTile
-    , missionLeader : Maybe MissionLeader
+    , missionLeader : MissionLeader
     , hand : List TrialCard
     , hardKnocks :
-        List TrialCard
+        HardKnockList
         -- This should be a list of most 3 and must be HardKnocks
     }

@@ -12922,50 +12922,56 @@ var _user$project$Types$nth = F3(
 var _user$project$Types$getThreats = function (list) {
 	return _user$project$NonEmptyList$asList(list);
 };
-var _user$project$Types$NoMansLand = function (a) {
-	return {cards: a};
-};
+var _user$project$Types$ThreatsCard = F2(
+	function (a, b) {
+		return {threats: a, trap: b};
+	});
 var _user$project$Types$GrizzledCard = F2(
 	function (a, b) {
 		return {name: a, luckyCharm: b};
+	});
+var _user$project$Types$Game = F6(
+	function (a, b, c, d, e, f) {
+		return {players: a, state: b, trailsPile: c, moralePile: d, noMansLand: e, speachTokens: f};
 	});
 var _user$project$Types$Player = F5(
 	function (a, b, c, d, e) {
 		return {persona: a, supportTiles: b, missionLeader: c, hand: d, hardKnocks: e};
 	});
-var _user$project$Types$MissionComplete = function (a) {
-	return {ctor: 'MissionComplete', _0: a};
+var _user$project$Types$MoraleDrop = function (a) {
+	return {ctor: 'MoraleDrop', _0: a};
 };
-var _user$project$Types$MissionFailed = function (a) {
-	return {ctor: 'MissionFailed', _0: a};
+var _user$project$Types$Support = function (a) {
+	return {ctor: 'Support', _0: a};
 };
-var _user$project$Types$NewMission = function (a) {
-	return {ctor: 'NewMission', _0: a};
+var _user$project$Types$TheMission = {ctor: 'TheMission'};
+var _user$project$Types$Preparation = function (a) {
+	return {ctor: 'Preparation', _0: a};
 };
-var _user$project$Types$FlowerOfTheGun = {ctor: 'FlowerOfTheGun'};
-var _user$project$Types$Give = function (a) {
-	return {ctor: 'Give', _0: a};
+var _user$project$Types$Withdraw = function (a) {
+	return {ctor: 'Withdraw', _0: a};
 };
-var _user$project$Types$Turn = function (a) {
-	return {ctor: 'Turn', _0: a};
+var _user$project$Types$Make = function (a) {
+	return {ctor: 'Make', _0: a};
 };
-var _user$project$Types$Hold = function (a) {
-	return {ctor: 'Hold', _0: a};
+var _user$project$Types$Use = function (a) {
+	return {ctor: 'Use', _0: a};
 };
 var _user$project$Types$Play = function (a) {
 	return {ctor: 'Play', _0: a};
 };
-var _user$project$Types$Trap = function (a) {
-	return {ctor: 'Trap', _0: a};
+var _user$project$Types$Mute = {ctor: 'Mute'};
+var _user$project$Types$Trauma = function (a) {
+	return {ctor: 'Trauma', _0: a};
 };
+var _user$project$Types$Phobia = function (a) {
+	return {ctor: 'Phobia', _0: a};
+};
+var _user$project$Types$MerryChristmas = {ctor: 'MerryChristmas'};
 var _user$project$Types$Threats = function (a) {
 	return {ctor: 'Threats', _0: a};
 };
-var _user$project$Types$ThreatsCard = {ctor: 'ThreatsCard'};
 var _user$project$Types$Hardknock = {ctor: 'Hardknock'};
-var _user$project$Types$MonumentCard = {ctor: 'MonumentCard'};
-var _user$project$Types$PeaceCard = {ctor: 'PeaceCard'};
-var _user$project$Types$TrialCard = {ctor: 'TrialCard'};
 var _user$project$Types$DoubleRight = {ctor: 'DoubleRight'};
 var _user$project$Types$DoubleLeft = {ctor: 'DoubleLeft'};
 var _user$project$Types$Right = {ctor: 'Right'};
@@ -12985,6 +12991,9 @@ var _user$project$Types$Mask = {ctor: 'Mask'};
 var _user$project$Types$Night = {ctor: 'Night'};
 var _user$project$Types$Winter = {ctor: 'Winter'};
 var _user$project$Types$Rain = {ctor: 'Rain'};
+var _user$project$Types$Monument = {ctor: 'Monument'};
+var _user$project$Types$Peace = {ctor: 'Peace'};
+var _user$project$Types$InWar = {ctor: 'InWar'};
 
 var _user$project$State$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
