@@ -125,6 +125,24 @@ missionTests =
                             enterMission game
                     in
                         Expect.equal (List.length inMissionGame.trailsPile) ((List.length defaultGame.trailsPile) - intensity * 2)
+            , test "hand size of players have increased with the mission intensitiy number of cards" <|
+              \() ->
+                    let
+                        intensity =
+                            2
+
+                        game =
+                            preparation defaultGame intensity
+
+                        inMissionGame =
+                            enterMission game
+                        
+                        hand1Size = 2
+                        hand2Size = 3
+
+                    in
+                        Expect.equal [hand1Size, hand2Size] [intensity, intensity]
+
             , test "The mission ends when all players have withdrawn" <|
                 \() ->
                     Expect.equal 1 1
