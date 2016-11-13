@@ -29,23 +29,24 @@ nonEmptyListTests =
 
 preparation : Game -> MissionIntensity -> Game
 preparation game intensity =
-    game
+    { game | mission = Just (Preparation intensity) }
 
 
 twoPlayers =
     NonEmptyList
         (Player (GrizzledCard Felix Rain) [] False [] [])
-        [(Player (GrizzledCard Lazare Shell) [] True [] [])]
+        [ (Player (GrizzledCard Lazare Shell) [] True [] []) ]
 
 
 defaultGame =
     (Game
-         twoPlayers
-         InWar
-         [ MerryChristmas ]
-         [(ThreatsCard (Card (NonEmptyList Rain []) False)) ]
-         []
-         []
+        twoPlayers
+        InWar
+        Nothing
+        [ MerryChristmas ]
+        [ (ThreatsCard (Card (NonEmptyList Rain []) False)) ]
+        []
+        []
     )
 
 
@@ -57,10 +58,13 @@ missionTests =
                     game =
                         defaultGame
 
+                    intensity =
+                        3
+
                     preparedGame =
-                        preparation game 3
+                        preparation game intensity
                 in
-                    Expect.equal preparedGame.state InWar
+                    Expect.equal preparedGame.mission (Just (Preparation intensity))
         ]
 
 

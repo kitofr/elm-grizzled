@@ -50,7 +50,7 @@ type MissionStep
     | MoraleDrop RemainingCardsInHand
 
 
-type TurnEvent
+type TurnAction
     = Play TrialCard
     | Use LuckyCharm
     | Make Speach
@@ -131,7 +131,7 @@ type alias HardKnockList =
 
 
 type GameState
-    = InWar
+    = InWar 
     | Peace
     | Monument
 
@@ -139,6 +139,7 @@ type GameState
 type alias Game =
     { players : PlayerList
     , state : GameState
+    , mission : Maybe MissionStep
     , trailsPile : TrialsPile
     , moralePile : MoralePile
     , noMansLand : NoMansLand

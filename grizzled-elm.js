@@ -12930,9 +12930,9 @@ var _user$project$Types$GrizzledCard = F2(
 	function (a, b) {
 		return {name: a, luckyCharm: b};
 	});
-var _user$project$Types$Game = F6(
-	function (a, b, c, d, e, f) {
-		return {players: a, state: b, trailsPile: c, moralePile: d, noMansLand: e, speachTokens: f};
+var _user$project$Types$Game = F7(
+	function (a, b, c, d, e, f, g) {
+		return {players: a, state: b, mission: c, trailsPile: d, moralePile: e, noMansLand: f, speachTokens: g};
 	});
 var _user$project$Types$Player = F5(
 	function (a, b, c, d, e) {
