@@ -11,3 +11,6 @@ asList : (NonEmptyList a) -> List a
 asList nonEmpty =
   nonEmpty.head :: nonEmpty.rest
 
+count : (NonEmptyList a) -> Int
+count nonEmpty = 
+  List.length (asList nonEmpty)

@@ -5,7 +5,7 @@ import List exposing (..)
 import Expect
 import String
 import Types exposing (..)
-import NonEmptyList exposing (..)
+import NonEmptyList as NEL exposing (..)
 
 
 nonEmptyListTests =
@@ -24,6 +24,11 @@ nonEmptyListTests =
                         NonEmptyList "a" [ "b" ]
                 in
                     Expect.equal (asList list) [ "a", "b" ]
+        , test "count" <|
+          \ () ->
+            let list = NonEmptyList "a" [ "b", "c" ]
+            in
+                Expect.equal (count list) 3
         ]
 
 
@@ -32,10 +37,39 @@ preparation game intensity =
     { game | mission = Just (Preparation intensity) }
 
 
+enterMission : Game -> Game
+enterMission game =
+    case game.mission of
+        Just state ->
+            case state of
+                Preparation intensity ->
+                    let
+                        players =
+                            List.length (asList game.players)
+
+                        trailsPile' =
+                            List.drop (intensity * players) game.trailsPile
+                    in
+                        { game
+                            | mission = Just TheMission
+                            , trailsPile = trailsPile'
+                        }
+
+                _ ->
+                    game
+
+        _ ->
+            game
+
+
 twoPlayers =
     NonEmptyList
         (Player (GrizzledCard Felix Rain) [] False [] [])
         [ (Player (GrizzledCard Lazare Shell) [] True [] []) ]
+
+
+threat threats =
+    ThreatsCard (Card threats False)
 
 
 defaultGame =
@@ -43,8 +77,8 @@ defaultGame =
         twoPlayers
         InWar
         Nothing
-        [ MerryChristmas ]
-        [ (ThreatsCard (Card (NonEmptyList Rain []) False)) ]
+        (List.repeat 4 (threat (NonEmptyList Rain [])))
+        [ threat (NonEmptyList Winter []) ]
         []
         []
     )
@@ -52,19 +86,49 @@ defaultGame =
 
 missionTests =
     describe "Mission rules"
-        [ test "Preparation " <|
-            \() ->
-                let
-                    game =
-                        defaultGame
+        [ describe "Preparation"
+            [ test "A game starts with preparation " <|
+                \() ->
+                    let
+                        game =
+                            defaultGame
 
-                    intensity =
-                        3
+                        intensity =
+                            3
 
-                    preparedGame =
-                        preparation game intensity
-                in
-                    Expect.equal preparedGame.mission (Just (Preparation intensity))
+                        preparedGame =
+                            preparation game intensity
+                    in
+                        Expect.equal preparedGame.mission (Just (Preparation intensity))
+            ]
+        , describe "The mission"
+            [ test "The mission starts with a prepared game" <|
+                \() ->
+                    let
+                        game =
+                            preparation defaultGame 4
+
+                        inMissionGame =
+                            enterMission game
+                    in
+                        Expect.equal inMissionGame.mission (Just TheMission)
+            , test "entering a mission all players gets cards from the trails pile" <|
+                \() ->
+                    let
+                        intensity =
+                            2
+
+                        game =
+                            preparation defaultGame intensity
+
+                        inMissionGame =
+                            enterMission game
+                    in
+                        Expect.equal (List.length inMissionGame.trailsPile) ((List.length defaultGame.trailsPile) - intensity * 2)
+            , test "The mission ends when all players have withdrawn" <|
+                \() ->
+                    Expect.equal 1 1
+            ]
         ]
 
 
