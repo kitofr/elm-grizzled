@@ -25,10 +25,12 @@ nonEmptyListTests =
                 in
                     Expect.equal (asList list) [ "a", "b" ]
         , test "count" <|
-          \ () ->
-            let list = NonEmptyList "a" [ "b", "c" ]
-            in
-                Expect.equal (count list) 3
+            \() ->
+                let
+                    list =
+                        NonEmptyList "a" [ "b", "c" ]
+                in
+                    Expect.equal (count list) 3
         ]
 
 
@@ -47,12 +49,12 @@ enterMission game =
                         players =
                             List.length (asList game.players)
 
-                        trailsPile' =
+                        trailsPile_ =
                             List.drop (intensity * players) game.trailsPile
                     in
                         { game
                             | mission = Just TheMission
-                            , trailsPile = trailsPile'
+                            , trailsPile = trailsPile_
                         }
 
                 _ ->
@@ -126,7 +128,7 @@ missionTests =
                     in
                         Expect.equal (List.length inMissionGame.trailsPile) ((List.length defaultGame.trailsPile) - intensity * 2)
             , test "hand size of players have increased with the mission intensitiy number of cards" <|
-              \() ->
+                \() ->
                     let
                         intensity =
                             2
@@ -136,13 +138,14 @@ missionTests =
 
                         inMissionGame =
                             enterMission game
-                        
-                        hand1Size = 2
-                        hand2Size = 3
 
+                        hand1Size =
+                            2
+
+                        hand2Size =
+                            3
                     in
-                        Expect.equal [hand1Size, hand2Size] [intensity, intensity]
-
+                        Expect.equal [ hand1Size, hand2Size ] [ intensity, intensity ]
             , test "The mission ends when all players have withdrawn" <|
                 \() ->
                     Expect.equal 1 1
