@@ -131,7 +131,7 @@ type alias HardKnockList =
 
 
 type GameState
-    = InWar 
+    = InWar
     | Peace
     | Monument
 
