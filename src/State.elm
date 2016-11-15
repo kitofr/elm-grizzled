@@ -1,11 +1,11 @@
 module State exposing (..)
 
-import Types exposing (Model, Msg)
+import Types exposing (..)
 
 
 initialState : ( Model, Cmd Msg )
 initialState =
-    ( { game = {} }, Cmd.none )
+    ( {}, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

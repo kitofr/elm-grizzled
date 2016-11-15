@@ -5,6 +5,14 @@ import Random exposing (..)
 import NonEmptyList exposing (..)
 
 
+type alias Model =
+    {}
+
+
+type Msg
+    = Foo
+
+
 getThreats : NonEmptyList Threat -> List Threat
 getThreats list =
     asList list
