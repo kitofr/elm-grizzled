@@ -146,27 +146,21 @@ missionTests =
                             enterMission game
                     in
                         Expect.equal (List.length inMissionGame.trailsPile) ((List.length defaultGame.trailsPile) - intensity * 2)
-              --, test "hand size of players have increased with the mission intensitiy number of cards" <|
-              --    \() ->
-              --        let
-              --            intensity =
-              --                2
-              --            game =
-              --                preparation defaultGame intensity
-              --            inMissionGame =
-              --                enterMission game
-              --            players =
-              --                NEL.asList inMissionGame.players
-              --            player1 =
-              --                nth 0 players emptyPlayer
-              --            player2 =
-              --                nth 1 players emptyPlayer
-              --            hand1Size =
-              --                List.length player1.hand
-              --            hand2Size =
-              --                List.length player1.hand
-              --        in
-              --            Expect.equal [ hand1Size, hand2Size ] [ intensity, intensity ]
+            , test "hand size of players have increased with the mission intensitiy number of cards" <|
+                \() ->
+                    let
+                        intensity =
+                            2
+
+                        game =
+                            preparation defaultGame intensity
+                                |> enterMission
+
+                        hands =
+                            NEL.asList game.players
+                                |> List.map (\p -> List.length p.hand)
+                    in
+                        Expect.equal hands [ intensity, intensity ]
             , test "The mission ends when all players have withdrawn" <|
                 \() ->
                     Expect.equal 1 1
