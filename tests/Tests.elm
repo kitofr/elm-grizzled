@@ -50,17 +50,68 @@ deal card player =
     { player | hand = card :: player.hand }
 
 
+dealCards : List TrialCard -> List Player -> List Player
+dealCards cards players =
+    players
+
+
+cycleBy : Int -> List a -> List (List a)
+cycleBy n list =
+    let
+        get index col =
+            List.indexedMap
+                (\i x ->
+                    if i % n == index then
+                        Just x
+                    else
+                        Nothing
+                )
+                col
+                |> List.filterMap identity
+    in
+        List.map (\i -> get (i) list)
+            (List.range 0 (n - 1))
+
+
+listTests =
+    describe "CycleBy"
+        [ test "Partition a list by 2" <|
+            \() ->
+                [ "a", "b", "c" ]
+                    |> cycleBy 2
+                    |> Expect.equal [ [ "a", "c" ], [ "b" ] ]
+        , test "Partition a list by 3" <|
+            \() ->
+                [ "a", "b", "c" ]
+                    |> cycleBy 3
+                    |> Expect.equal [ [ "a" ], [ "b" ], [ "c" ] ]
+        , test "Partition 6 items by 3" <|
+            \() ->
+                [ "a", "b", "c", "d", "e", "f" ]
+                    |> cycleBy 3
+                    |> Expect.equal [ [ "a", "d" ], [ "b", "e" ], [ "c", "f" ] ]
+        , test "Partition 5 items by 3" <|
+            \() ->
+                [ "a", "b", "c", "d", "e" ]
+                    |> cycleBy 3
+                    |> Expect.equal [ [ "a", "d" ], [ "b", "e" ], [ "c" ] ]
+        ]
+
+
 dealTests =
     describe "Dealing cards"
         [ test "Dealing a card to a player adds it to his hand" <|
             \() ->
-                let
-                    card =
-                        threatCard Rain
-                in
-                    deal card emptyPlayer
-                        |> .hand
-                        |> Expect.equal [ (threatCard Rain) ]
+                emptyPlayer
+                    |> deal (threatCard Rain)
+                    |> .hand
+                    |> Expect.equal [ (threatCard Rain) ]
+          --    , test "Deal a list of cards to serveral players" <|
+          --        \() ->
+          --            [ namedPlayer Felix, namedPlayer Lazare ]
+          --                |> dealCards [ (threatCard Rain), (threatCard Winter), (threatCard Rain) ]
+          --                |> List.map .hand
+          --                |> Expect.equal [ [ (threatCard Rain), (threatCard Rain) ], [ (threatCard Winter) ] ]
         ]
 
 
@@ -101,7 +152,12 @@ enterMission game =
 
 emptyPlayer : Player
 emptyPlayer =
-    (Player (GrizzledCard Felix Rain) [] False [] [])
+    namedPlayer Felix
+
+
+namedPlayer : Grizzled -> Player
+namedPlayer name =
+    (Player (GrizzledCard name Rain) [] False [] [])
 
 
 twoPlayers =
@@ -201,4 +257,5 @@ all =
         [ nonEmptyListTests
         , missionTests
         , dealTests
+        , listTests
         ]
