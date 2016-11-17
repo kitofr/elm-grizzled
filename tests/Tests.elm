@@ -1,11 +1,13 @@
 module Tests exposing (..)
 
+import UtilTests exposing (utilTests)
 import Test exposing (..)
 import List exposing (..)
 import Expect
 import String
 import Types exposing (..)
 import NonEmptyList as NEL exposing (..)
+import Util exposing (cycleBy)
 
 
 nonEmptyListTests =
@@ -54,49 +56,6 @@ dealCards cards players =
                 cards
     in
         List.map2 (\p cs -> { p | hand = cs }) players hands
-
-
-cycleBy : Int -> List a -> List (List a)
-cycleBy n list =
-    let
-        get index col =
-            List.indexedMap
-                (\i x ->
-                    if i % n == index then
-                        Just x
-                    else
-                        Nothing
-                )
-                col
-                |> List.filterMap identity
-    in
-        List.map (\i -> get (i) list)
-            (List.range 0 (n - 1))
-
-
-listTests =
-    describe "CycleBy"
-        [ test "Partition a list by 2" <|
-            \() ->
-                [ "a", "b", "c" ]
-                    |> cycleBy 2
-                    |> Expect.equal [ [ "a", "c" ], [ "b" ] ]
-        , test "Partition a list by 3" <|
-            \() ->
-                [ "a", "b", "c" ]
-                    |> cycleBy 3
-                    |> Expect.equal [ [ "a" ], [ "b" ], [ "c" ] ]
-        , test "Partition 6 items by 3" <|
-            \() ->
-                [ "a", "b", "c", "d", "e", "f" ]
-                    |> cycleBy 3
-                    |> Expect.equal [ [ "a", "d" ], [ "b", "e" ], [ "c", "f" ] ]
-        , test "Partition 5 items by 3" <|
-            \() ->
-                [ "a", "b", "c", "d", "e" ]
-                    |> cycleBy 3
-                    |> Expect.equal [ [ "a", "d" ], [ "b", "e" ], [ "c" ] ]
-        ]
 
 
 dealTests =
@@ -252,5 +211,5 @@ all =
         [ nonEmptyListTests
         , missionTests
         , dealTests
-        , listTests
+        , utilTests
         ]
