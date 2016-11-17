@@ -45,14 +45,15 @@ preparation game intensity =
     { game | mission = Just (Preparation intensity) }
 
 
-deal : TrialCard -> Player -> Player
-deal card player =
-    { player | hand = card :: player.hand }
-
-
 dealCards : List TrialCard -> List Player -> List Player
 dealCards cards players =
-    players
+    let
+        hands =
+            cycleBy
+                (List.length players)
+                cards
+    in
+        List.map2 (\p cs -> { p | hand = cs }) players hands
 
 
 cycleBy : Int -> List a -> List (List a)
@@ -100,18 +101,12 @@ listTests =
 
 dealTests =
     describe "Dealing cards"
-        [ test "Dealing a card to a player adds it to his hand" <|
+        [ test "Deal a list of cards to serveral players" <|
             \() ->
-                emptyPlayer
-                    |> deal (threatCard Rain)
-                    |> .hand
-                    |> Expect.equal [ (threatCard Rain) ]
-          --    , test "Deal a list of cards to serveral players" <|
-          --        \() ->
-          --            [ namedPlayer Felix, namedPlayer Lazare ]
-          --                |> dealCards [ (threatCard Rain), (threatCard Winter), (threatCard Rain) ]
-          --                |> List.map .hand
-          --                |> Expect.equal [ [ (threatCard Rain), (threatCard Rain) ], [ (threatCard Winter) ] ]
+                [ namedPlayer Felix, namedPlayer Lazare ]
+                    |> dealCards [ (threatCard Rain), (threatCard Winter), (threatCard Rain) ]
+                    |> List.map .hand
+                    |> Expect.equal [ [ (threatCard Rain), (threatCard Rain) ], [ (threatCard Winter) ] ]
         ]
 
 
