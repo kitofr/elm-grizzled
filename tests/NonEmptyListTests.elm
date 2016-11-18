@@ -18,11 +18,28 @@ nonEmptyListTests =
                 NonEmptyList "a" [ "b" ]
                     |> NEL.asList
                     |> Expect.equal [ "a", "b" ]
-        , test "fromList" <|
-            \() ->
-                [ "a", "b" ]
-                    |> NEL.fromList
-                    |> Expect.equal (Just (NonEmptyList "a" [ "b" ]))
+        , describe "fromList"
+            [ test "with 0 elements" <|
+                \() ->
+                    []
+                        |> NEL.fromList
+                        |> Expect.equal (Nothing)
+            , test "with 1 elements" <|
+                \() ->
+                    [ "a" ]
+                        |> NEL.fromList
+                        |> Expect.equal (Just (NonEmptyList "a" []))
+            , test "with 2 elements" <|
+                \() ->
+                    [ "a", "b" ]
+                        |> NEL.fromList
+                        |> Expect.equal (Just (NonEmptyList "a" [ "b" ]))
+            , test "with 3 elements" <|
+                \() ->
+                    [ "a", "b", "c" ]
+                        |> NEL.fromList
+                        |> Expect.equal (Just (NonEmptyList "a" [ "b", "c" ]))
+            ]
         , test "count" <|
             \() ->
                 NonEmptyList "a" [ "b", "c" ]
@@ -34,6 +51,11 @@ nonEmptyListTests =
                     |> NEL.add "c"
                     |> NEL.asList
                     |> Expect.equal [ "a", "b", "c" ]
+          --, test "drop" <|
+          --    \() ->
+          --        NonEmptyList "a" [ "b" ]
+          --            |> NEL.drop 1
+          --            |> Expect.equal (Just (NonEmptyList [ "b" ]))
         , test "merge" <|
             \() ->
                 NonEmptyList "a" [ "b" ]

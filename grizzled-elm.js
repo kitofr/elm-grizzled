@@ -13800,6 +13800,14 @@ var _user$project$NonEmptyList$fromList = function (list) {
 		return _elm_lang$core$Maybe$Nothing;
 	}
 };
+var _user$project$NonEmptyList$drop = F2(
+	function (n, list) {
+		return _user$project$NonEmptyList$fromList(
+			A2(
+				_elm_lang$core$List$drop,
+				n,
+				_user$project$NonEmptyList$asList(list)));
+	});
 
 var _user$project$Types$nth = F3(
 	function (n, lst, def) {
@@ -13825,9 +13833,9 @@ var _user$project$Types$Game = F7(
 	function (a, b, c, d, e, f, g) {
 		return {players: a, state: b, mission: c, trailsPile: d, moralePile: e, noMansLand: f, speachTokens: g};
 	});
-var _user$project$Types$Player = F5(
-	function (a, b, c, d, e) {
-		return {persona: a, supportTiles: b, missionLeader: c, hand: d, hardKnocks: e};
+var _user$project$Types$Player = F6(
+	function (a, b, c, d, e, f) {
+		return {persona: a, supportTiles: b, missionLeader: c, hand: d, state: e, hardKnocks: f};
 	});
 var _user$project$Types$Foo = {ctor: 'Foo'};
 var _user$project$Types$MoraleDrop = function (a) {
@@ -13886,6 +13894,10 @@ var _user$project$Types$Rain = {ctor: 'Rain'};
 var _user$project$Types$Monument = {ctor: 'Monument'};
 var _user$project$Types$Peace = {ctor: 'Peace'};
 var _user$project$Types$InWar = {ctor: 'InWar'};
+var _user$project$Types$Withdrawn = function (a) {
+	return {ctor: 'Withdrawn', _0: a};
+};
+var _user$project$Types$Playing = {ctor: 'Playing'};
 
 var _user$project$State$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;

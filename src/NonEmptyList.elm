@@ -25,6 +25,14 @@ fromList list =
             Nothing
 
 
+drop : Int -> NonEmptyList a -> Maybe (NonEmptyList a)
+drop n list =
+    list
+        |> asList
+        |> List.drop n
+        |> fromList
+
+
 head : NonEmptyList a -> a
 head nel =
     nel.head

@@ -81,6 +81,32 @@ enterMission game =
             game
 
 
+withdrawPlayer : SupportTile -> Player -> Player
+withdrawPlayer direction player =
+    { player | state = Withdrawn direction }
+
+
+playTurn : TurnAction -> Game -> Game
+playTurn action game =
+    case action of
+        Withdraw direction ->
+            let
+                player_ =
+                    game.players.head
+                        |> withdrawPlayer direction
+
+                -- traverse players
+                players_ =
+                    game.players
+
+                -- if all players have withdrawn => go to support
+            in
+                { game | players = players_ }
+
+        _ ->
+            game
+
+
 emptyPlayer : Player
 emptyPlayer =
     namedPlayer Felix
@@ -88,13 +114,19 @@ emptyPlayer =
 
 namedPlayer : Grizzled -> Player
 namedPlayer name =
-    (Player (GrizzledCard name Rain) [] False [] [])
+    (Player (GrizzledCard name Rain) [] False [] Playing [])
+
+
+felix =
+    (Player (GrizzledCard Felix Rain) [] False [] Playing [])
+
+
+lazare =
+    (Player (GrizzledCard Lazare Shell) [] True [] Playing [])
 
 
 twoPlayers =
-    NonEmptyList
-        (Player (GrizzledCard Felix Rain) [] False [] [])
-        [ (Player (GrizzledCard Lazare Shell) [] True [] []) ]
+    NonEmptyList felix [ lazare ]
 
 
 threatCard threat =
@@ -168,7 +200,15 @@ missionTests =
                         Expect.equal cardCountOnHand [ 2, 2 ]
             , test "The mission ends when all players have withdrawn" <|
                 \() ->
-                    Expect.equal 1 1
+                    let
+                        game =
+                            preparation defaultGame 2
+                                |> enterMission
+                                |> playTurn (Withdraw Left)
+                                |> playTurn (Withdraw Right)
+                    in
+                        Expect.equal game.mission
+                            (Just (Support [ { player = felix, supportTile = Left }, { player = lazare, supportTile = Right } ]))
             ]
         ]
 

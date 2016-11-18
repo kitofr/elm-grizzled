@@ -155,11 +155,17 @@ type alias Game =
     }
 
 
+type PlayerState
+    = Playing
+    | Withdrawn SupportTile
+
+
 type alias Player =
     { persona : GrizzledCard
     , supportTiles : List SupportTile
     , missionLeader : MissionLeader
     , hand : List TrialCard
+    , state : PlayerState
     , hardKnocks :
         HardKnockList
         -- This should be a list of most 3 and must be HardKnocks
