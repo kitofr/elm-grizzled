@@ -157,18 +157,15 @@ missionTests =
             , test "hand size of players have increased with the mission intensitiy number of cards" <|
                 \() ->
                     let
-                        intensity =
-                            2
-
                         game =
-                            preparation defaultGame intensity
+                            preparation defaultGame 2
                                 |> enterMission
 
-                        hands =
+                        cardCountOnHand =
                             NEL.asList game.players
                                 |> List.map (\p -> List.length p.hand)
                     in
-                        Expect.equal hands [ intensity, intensity ]
+                        Expect.equal cardCountOnHand [ 2, 2 ]
             , test "The mission ends when all players have withdrawn" <|
                 \() ->
                     Expect.equal 1 1
