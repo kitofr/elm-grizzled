@@ -18,6 +18,11 @@ nonEmptyListTests =
                 NonEmptyList "a" [ "b" ]
                     |> NEL.asList
                     |> Expect.equal [ "a", "b" ]
+        , test "fromList" <|
+            \() ->
+                [ "a", "b" ]
+                    |> NEL.fromList
+                    |> Expect.equal (Just (NonEmptyList "a" [ "b" ]))
         , test "count" <|
             \() ->
                 NonEmptyList "a" [ "b", "c" ]

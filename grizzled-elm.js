@@ -13771,6 +13771,35 @@ var _user$project$NonEmptyList$NonEmptyList = F2(
 	function (a, b) {
 		return {head: a, rest: b};
 	});
+var _user$project$NonEmptyList$fromList = function (list) {
+	var _p0 = list;
+	if (_p0.ctor === '::') {
+		if (_p0._1.ctor === '[]') {
+			return _elm_lang$core$Maybe$Just(
+				A2(
+					_user$project$NonEmptyList$NonEmptyList,
+					_p0._0,
+					{ctor: '[]'}));
+		} else {
+			if (_p0._1._1.ctor === '[]') {
+				return _elm_lang$core$Maybe$Just(
+					A2(
+						_user$project$NonEmptyList$NonEmptyList,
+						_p0._0,
+						{
+							ctor: '::',
+							_0: _p0._1._0,
+							_1: {ctor: '[]'}
+						}));
+			} else {
+				return _elm_lang$core$Maybe$Just(
+					A2(_user$project$NonEmptyList$NonEmptyList, _p0._0, _p0._1));
+			}
+		}
+	} else {
+		return _elm_lang$core$Maybe$Nothing;
+	}
+};
 
 var _user$project$Types$nth = F3(
 	function (n, lst, def) {

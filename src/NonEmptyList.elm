@@ -9,6 +9,22 @@ type alias NonEmptyList a =
     }
 
 
+fromList : List a -> Maybe (NonEmptyList a)
+fromList list =
+    case list of
+        [ h ] ->
+            Just (NonEmptyList h [])
+
+        [ a, b ] ->
+            Just (NonEmptyList a [ b ])
+
+        h :: t ->
+            Just (NonEmptyList h t)
+
+        [] ->
+            Nothing
+
+
 head : NonEmptyList a -> a
 head nel =
     nel.head

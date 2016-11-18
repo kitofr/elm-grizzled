@@ -54,17 +54,25 @@ enterMission game =
                         newCards =
                             List.take cardsToDistribute game.trailsPile
 
-                        players_ =
-                            game.players
-
-                        --deal newCards game.players
                         trailsPile_ =
                             List.drop cardsToDistribute game.trailsPile
+
+                        players_ =
+                            game.players
+                                |> NEL.asList
+                                |> dealCards newCards
+                                |> NEL.fromList
                     in
-                        { game
-                            | mission = Just TheMission
-                            , trailsPile = trailsPile_
-                        }
+                        case players_ of
+                            Just p ->
+                                { game
+                                    | mission = Just TheMission
+                                    , trailsPile = trailsPile_
+                                    , players = p
+                                }
+
+                            Nothing ->
+                                game
 
                 _ ->
                     game
