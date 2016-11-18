@@ -51,11 +51,23 @@ nonEmptyListTests =
                     |> NEL.add "c"
                     |> NEL.asList
                     |> Expect.equal [ "a", "b", "c" ]
-          --, test "drop" <|
-          --    \() ->
-          --        NonEmptyList "a" [ "b" ]
-          --            |> NEL.drop 1
-          --            |> Expect.equal (Just (NonEmptyList [ "b" ]))
+        , describe "drop"
+            [ test " 1 from ['a','b']" <|
+                \() ->
+                    NonEmptyList "a" [ "b" ]
+                        |> NEL.drop 1
+                        |> Expect.equal (Just (NonEmptyList "b" []))
+            , test " 2 from ['a','b']" <|
+                \() ->
+                    NonEmptyList "a" [ "b" ]
+                        |> NEL.drop 2
+                        |> Expect.equal Nothing
+            , test " 1 from ['a','b', 'c']" <|
+                \() ->
+                    NonEmptyList "a" [ "b", "c" ]
+                        |> NEL.drop 1
+                        |> Expect.equal (Just (NonEmptyList "b" [ "c" ]))
+            ]
         , test "merge" <|
             \() ->
                 NonEmptyList "a" [ "b" ]
