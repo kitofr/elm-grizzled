@@ -13802,11 +13802,14 @@ var _user$project$NonEmptyList$fromList = function (list) {
 };
 var _user$project$NonEmptyList$drop = F2(
 	function (n, list) {
-		return _user$project$NonEmptyList$fromList(
-			A2(
-				_elm_lang$core$List$drop,
-				n,
-				_user$project$NonEmptyList$asList(list)));
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			list,
+			_user$project$NonEmptyList$fromList(
+				A2(
+					_elm_lang$core$List$drop,
+					n,
+					_user$project$NonEmptyList$asList(list))));
 	});
 
 var _user$project$Types$nth = F3(
@@ -13841,9 +13844,7 @@ var _user$project$Types$Foo = {ctor: 'Foo'};
 var _user$project$Types$MoraleDrop = function (a) {
 	return {ctor: 'MoraleDrop', _0: a};
 };
-var _user$project$Types$Support = function (a) {
-	return {ctor: 'Support', _0: a};
-};
+var _user$project$Types$Support = {ctor: 'Support'};
 var _user$project$Types$TheMission = {ctor: 'TheMission'};
 var _user$project$Types$Preparation = function (a) {
 	return {ctor: 'Preparation', _0: a};

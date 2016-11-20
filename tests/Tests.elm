@@ -95,13 +95,30 @@ playTurn action game =
                     game.players.head
                         |> withdrawPlayer direction
 
-                -- traverse players
+                rest =
+                    NEL.drop 1 game.players
+
                 players_ =
-                    game.players
+                    NEL.add player_ rest
+
+                allWithDrawn =
+                    NEL.asList players_
+                        |> List.all
+                            (\x ->
+                                case x.state of
+                                    Withdrawn _ ->
+                                        True
+
+                                    _ ->
+                                        False
+                            )
 
                 -- if all players have withdrawn => go to support
             in
-                { game | players = players_ }
+                { game
+                    | players = players_
+                    , mission = Just Support
+                }
 
         _ ->
             game
@@ -208,7 +225,7 @@ missionTests =
                                 |> playTurn (Withdraw Right)
                     in
                         Expect.equal game.mission
-                            (Just (Support [ { player = felix, supportTile = Left }, { player = lazare, supportTile = Right } ]))
+                            (Just Support)
             ]
         ]
 

@@ -35,10 +35,6 @@ type alias MissionIntensity =
     Int
 
 
-type alias SupportList =
-    List { player : Player, supportTile : SupportTile }
-
-
 type alias PlayerList =
     NonEmptyList Player
 
@@ -54,7 +50,7 @@ type alias MoralePile =
 type MissionStep
     = Preparation MissionIntensity
     | TheMission
-    | Support SupportList
+    | Support
     | MoraleDrop RemainingCardsInHand
 
 

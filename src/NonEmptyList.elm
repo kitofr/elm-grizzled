@@ -25,12 +25,13 @@ fromList list =
             Nothing
 
 
-drop : Int -> NonEmptyList a -> Maybe (NonEmptyList a)
+drop : Int -> NonEmptyList a -> NonEmptyList a
 drop n list =
     list
         |> asList
         |> List.drop n
         |> fromList
+        |> Maybe.withDefault list
 
 
 head : NonEmptyList a -> a
