@@ -221,16 +221,16 @@ missionTests =
                                 |> playTurn (Withdraw Right)
                     in
                         Expect.equal game.missionState (Just Support)
-              --, test "The mission continues until all is withdrawn" <|
-              --    \() ->
-              --        let
-              --            game =
-              --                preparation defaultGame 2
-              --                    |> enterMission
-              --                    |> playTurn (Withdraw Left)
-              --        in
-              --            Expect.equal game.missionState
-              --                (Just TheMission)
+            , test "The mission continues until all is withdrawn" <|
+                \() ->
+                    let
+                        game =
+                            preparation defaultGame 2
+                                |> enterMission
+                                |> playTurn (Withdraw Left)
+                    in
+                        Expect.equal game.missionState
+                            (Just TheMission)
               -- support goes to the player that was given most support
               -- support can be a tie
               -- morale drop is equal to the number of cards at hand but at least 3
