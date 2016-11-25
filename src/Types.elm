@@ -143,7 +143,7 @@ type GameState
 type alias Game =
     { players : PlayerList
     , state : GameState
-    , mission : Maybe MissionStep
+    , missionState : Maybe MissionStep
     , trailsPile : TrialsPile
     , moralePile : MoralePile
     , noMansLand : NoMansLand

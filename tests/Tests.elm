@@ -13,7 +13,7 @@ import Util exposing (cycleBy)
 
 preparation : Game -> MissionIntensity -> Game
 preparation game intensity =
-    { game | mission = Just (Preparation intensity) }
+    { game | missionState = Just (Preparation intensity) }
 
 
 dealCards : List TrialCard -> List Player -> List Player
@@ -40,7 +40,7 @@ dealTests =
 
 enterMission : Game -> Game
 enterMission game =
-    case game.mission of
+    case game.missionState of
         Just state ->
             case state of
                 Preparation intensity ->
@@ -66,7 +66,7 @@ enterMission game =
                         case players_ of
                             Just p ->
                                 { game
-                                    | mission = Just TheMission
+                                    | missionState = Just TheMission
                                     , trailsPile = trailsPile_
                                     , players = p
                                 }
@@ -101,7 +101,7 @@ playTurn action game =
                 players_ =
                     NEL.add player_ rest
 
-                allWithDrawn =
+                allWithdrawn =
                     NEL.asList players_
                         |> List.all
                             (\x ->
@@ -117,7 +117,7 @@ playTurn action game =
             in
                 { game
                     | players = players_
-                    , mission = Just Support
+                    , missionState = Just Support
                 }
 
         _ ->
@@ -177,30 +177,26 @@ missionTests =
                         preparedGame =
                             preparation game intensity
                     in
-                        Expect.equal preparedGame.mission (Just (Preparation intensity))
+                        Expect.equal preparedGame.missionState (Just (Preparation intensity))
             ]
         , describe "The mission"
             [ test "The mission starts with a prepared game" <|
                 \() ->
                     let
-                        game =
-                            preparation defaultGame 4
-
                         inMissionGame =
-                            enterMission game
+                            preparation defaultGame 4
+                                |> enterMission
                     in
-                        Expect.equal inMissionGame.mission (Just TheMission)
+                        Expect.equal inMissionGame.missionState (Just TheMission)
             , test "entering a mission all players gets cards from the trails pile" <|
                 \() ->
                     let
                         intensity =
                             2
 
-                        game =
-                            preparation defaultGame intensity
-
                         inMissionGame =
-                            enterMission game
+                            preparation defaultGame intensity
+                                |> enterMission
                     in
                         Expect.equal (List.length inMissionGame.trailsPile) ((List.length defaultGame.trailsPile) - intensity * 2)
             , test "hand size of players have increased with the mission intensitiy number of cards" <|
@@ -224,8 +220,21 @@ missionTests =
                                 |> playTurn (Withdraw Left)
                                 |> playTurn (Withdraw Right)
                     in
-                        Expect.equal game.mission
-                            (Just Support)
+                        Expect.equal game.missionState (Just Support)
+              --, test "The mission continues until all is withdrawn" <|
+              --    \() ->
+              --        let
+              --            game =
+              --                preparation defaultGame 2
+              --                    |> enterMission
+              --                    |> playTurn (Withdraw Left)
+              --        in
+              --            Expect.equal game.missionState
+              --                (Just TheMission)
+              -- support goes to the player that was given most support
+              -- support can be a tie
+              -- morale drop is equal to the number of cards at hand but at least 3
+              -- before next mission, last leader gets a token
             ]
         ]
 
