@@ -31,7 +31,7 @@ dealTests =
     describe "Dealing cards"
         [ test "Deal a list of cards to serveral players" <|
             \() ->
-                [ namedPlayer Felix, namedPlayer Lazare ]
+                [ namedPlayer Felix Rain, namedPlayer Lazare Winter ]
                     |> dealCards [ (threatCard Rain), (threatCard Winter), (threatCard Rain) ]
                     |> List.map .hand
                     |> Expect.equal [ [ (threatCard Rain), (threatCard Rain) ], [ (threatCard Winter) ] ]
@@ -126,12 +126,12 @@ playTurn action game =
 
 emptyPlayer : Player
 emptyPlayer =
-    namedPlayer Felix
+    namedPlayer Felix Rain
 
 
-namedPlayer : Grizzled -> Player
-namedPlayer name =
-    (Player (GrizzledCard name Rain) [] False [] Playing [])
+namedPlayer : Grizzled -> Threat -> Player
+namedPlayer name luckycharm =
+    (Player (GrizzledCard name luckycharm) [] False [] Playing [])
 
 
 felix =
