@@ -81,6 +81,16 @@ enterMission game =
             game
 
 
+dealSupport : Game -> Game
+dealSupport game =
+    game
+
+
+moraleDrop : Game -> Game
+moraleDrop game =
+    game
+
+
 withdrawPlayer : SupportTile -> Player -> Player
 withdrawPlayer direction player =
     { player | state = Withdrawn direction }
@@ -163,7 +173,7 @@ defaultGame =
         InWar
         Nothing
         (List.repeat 4 (threatCard Rain))
-        [ threatCard Winter ]
+        (List.repeat 3 (threatCard Winter))
         []
         []
     )
@@ -240,7 +250,21 @@ missionTests =
                             (Just TheMission)
               -- support goes to the player that was given most support
               -- support can be a tie
-              -- morale drop is equal to the number of cards at hand but at least 3
+            , test "morale drop is equal to the number of cards at hand but at least 3" <|
+                \() ->
+                    let
+                        reserve =
+                            List.length defaultGame.moraleReserve
+
+                        game =
+                            preparation defaultGame 1
+                                |> enterMission
+                                |> playTurn (Withdraw Left)
+                                |> playTurn (Withdraw Right)
+                                |> dealSupport
+                                |> moraleDrop
+                    in
+                        Expect.equal (List.length game.moraleReserve) (reserve - 3)
               -- before next mission, last leader gets a token
             ]
         ]

@@ -43,7 +43,7 @@ type alias TrialsPile =
     List TrialCard
 
 
-type alias MoralePile =
+type alias MoraleReserve =
     List TrialCard
 
 
@@ -51,7 +51,7 @@ type MissionStep
     = Preparation MissionIntensity
     | TheMission
     | Support
-    | MoraleDrop RemainingCardsInHand
+    | MoraleDrop
 
 
 type TurnAction
@@ -145,7 +145,7 @@ type alias Game =
     , state : GameState
     , missionState : Maybe MissionStep
     , trailsPile : TrialsPile
-    , moralePile : MoralePile
+    , moraleReserve : MoraleReserve
     , noMansLand : NoMansLand
     , speachTokens : List SpeachToken
     }

@@ -13834,16 +13834,14 @@ var _user$project$Types$GrizzledCard = F2(
 	});
 var _user$project$Types$Game = F7(
 	function (a, b, c, d, e, f, g) {
-		return {players: a, state: b, missionState: c, trailsPile: d, moralePile: e, noMansLand: f, speachTokens: g};
+		return {players: a, state: b, missionState: c, trailsPile: d, moraleReserve: e, noMansLand: f, speachTokens: g};
 	});
 var _user$project$Types$Player = F6(
 	function (a, b, c, d, e, f) {
 		return {persona: a, supportTiles: b, missionLeader: c, hand: d, state: e, hardKnocks: f};
 	});
 var _user$project$Types$Foo = {ctor: 'Foo'};
-var _user$project$Types$MoraleDrop = function (a) {
-	return {ctor: 'MoraleDrop', _0: a};
-};
+var _user$project$Types$MoraleDrop = {ctor: 'MoraleDrop'};
 var _user$project$Types$Support = {ctor: 'Support'};
 var _user$project$Types$TheMission = {ctor: 'TheMission'};
 var _user$project$Types$Preparation = function (a) {
