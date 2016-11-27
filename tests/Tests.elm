@@ -112,13 +112,16 @@ playTurn action game =
                                     _ ->
                                         False
                             )
-
-                -- if all players have withdrawn => go to support
             in
-                { game
-                    | players = players_
-                    , missionState = Just Support
-                }
+                if allWithdrawn then
+                    { game
+                        | players = players_
+                        , missionState = Just Support
+                    }
+                else
+                    { game
+                        | players = players_
+                    }
 
         _ ->
             game
