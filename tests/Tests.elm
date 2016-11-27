@@ -137,14 +137,17 @@ namedPlayer name luckycharm =
     (Player (GrizzledCard name luckycharm) [] False [] Playing [])
 
 
+felix : Player
 felix =
     (Player (GrizzledCard Felix Rain) [] False [] Playing [])
 
 
+lazare : Player
 lazare =
     (Player (GrizzledCard Lazare Shell) [] True [] Playing [])
 
 
+twoPlayers : NonEmptyList Player
 twoPlayers =
     NonEmptyList felix [ lazare ]
 
@@ -153,6 +156,7 @@ threatCard threat =
     ThreatsCard (Card (NonEmptyList threat []) False)
 
 
+defaultGame : Game
 defaultGame =
     (Game
         twoPlayers
