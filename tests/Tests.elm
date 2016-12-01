@@ -193,8 +193,8 @@ threatCard threat =
     ThreatsCard (Card (NonEmptyList threat []) False)
 
 
-defaultGame : Game
-defaultGame =
+game4Trial3MoraleCards : Game
+game4Trial3MoraleCards =
     (Game
         twoPlayers
         InWar
@@ -213,7 +213,7 @@ missionTests =
                 \() ->
                     let
                         game =
-                            defaultGame
+                            game4Trial3MoraleCards
 
                         intensity =
                             3
@@ -228,7 +228,7 @@ missionTests =
                 \() ->
                     let
                         inMissionGame =
-                            preparation defaultGame 4
+                            preparation game4Trial3MoraleCards 4
                                 |> enterMission
                     in
                         Expect.equal inMissionGame.missionState (Just TheMission)
@@ -239,15 +239,15 @@ missionTests =
                             2
 
                         inMissionGame =
-                            preparation defaultGame intensity
+                            preparation game4Trial3MoraleCards intensity
                                 |> enterMission
                     in
-                        Expect.equal (List.length inMissionGame.trailsPile) ((List.length defaultGame.trailsPile) - intensity * 2)
+                        Expect.equal (List.length inMissionGame.trailsPile) ((List.length game4Trial3MoraleCards.trailsPile) - intensity * 2)
             , test "hand size of players have increased with the mission intensitiy number of cards" <|
                 \() ->
                     let
                         game =
-                            preparation defaultGame 2
+                            preparation game4Trial3MoraleCards 2
                                 |> enterMission
 
                         cardCountOnHand =
@@ -259,7 +259,7 @@ missionTests =
                 \() ->
                     let
                         game =
-                            preparation defaultGame 2
+                            preparation game4Trial3MoraleCards 2
                                 |> enterMission
                                 |> playTurn (Withdraw Left)
                                 |> playTurn (Withdraw Right)
@@ -269,7 +269,7 @@ missionTests =
                 \() ->
                     let
                         game =
-                            preparation defaultGame 2
+                            preparation game4Trial3MoraleCards 2
                                 |> enterMission
                                 |> playTurn (Withdraw Left)
                     in
@@ -281,10 +281,13 @@ missionTests =
                 \() ->
                     let
                         reserve =
-                            List.length defaultGame.moraleReserve
+                            List.length game4Trial3MoraleCards.moraleReserve
+
+                        intensity =
+                            1
 
                         game =
-                            preparation defaultGame 1
+                            preparation game4Trial3MoraleCards intensity
                                 |> enterMission
                                 |> playTurn (Withdraw Left)
                                 |> playTurn (Withdraw Right)
