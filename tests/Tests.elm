@@ -86,9 +86,36 @@ dealSupport game =
     game
 
 
+atLeast : Int -> Int -> Int
+atLeast min a =
+    if a < min then
+        min
+    else
+        a
+
+
 moraleDrop : Game -> Game
 moraleDrop game =
-    game
+    let
+        cardsOnHand =
+            NEL.asList game.players
+                |> List.map (\x -> List.length x.hand)
+                |> List.sum
+                |> atLeast 3
+
+        cards2Transfer =
+            List.take cardsOnHand game.moraleReserve
+
+        moralePile_ =
+            List.drop cardsOnHand game.moraleReserve
+
+        trailsPile_ =
+            List.append game.trailsPile cards2Transfer
+    in
+        { game
+            | trailsPile = trailsPile_
+            , moraleReserve = moralePile_
+        }
 
 
 withdrawPlayer : SupportTile -> Player -> Player
