@@ -252,7 +252,11 @@ changeMissionLeader game =
     in
         case token of
             Just token ->
-                game
+                let
+                    oldLeader =
+                        { currentLeader | speachTokens = token :: currentLeader.speachTokens }
+                in
+                    { game | players = (updatePlayer game.players oldLeader) }
 
             _ ->
                 game
@@ -357,28 +361,33 @@ missionTests =
                     in
                         Expect.equal (List.length game.moraleReserve) (reserve - 3)
             , describe "End of mission"
-                [--test "before next mission, last leader gets a token" <|
-                 --  \() ->
-                 --      let
-                 --          intensity =
-                 --              2
-                 --          game =
-                 --              preparation game4Trial3MoraleCards intensity
-                 --                  |> enterMission
-                 --          currentLeader =
-                 --              missionLeader game
-                 --          numberOfTokens =
-                 --              List.length currentLeader.speachTokens
-                 --          afterGame =
-                 --              game
-                 --                  |> handleSupport
-                 --                  |> moraleDrop
-                 --                  |> changeMissionLeader
-                 --          oldLeader =
-                 --              findPlayer afterGame currentLeader.persona
-                 --                  |> Maybe.withDefault emptyPlayer
-                 --      in
-                 --          Expect.equal (List.length oldLeader.speachTokens) (numberOfTokens + 1)
+                [ test "before next mission, last leader gets a token" <|
+                    \() ->
+                        let
+                            intensity =
+                                2
+
+                            game =
+                                preparation game4Trial3MoraleCards intensity
+                                    |> enterMission
+
+                            currentLeader =
+                                missionLeader game
+
+                            numberOfTokens =
+                                List.length currentLeader.speachTokens
+
+                            afterGame =
+                                game
+                                    |> handleSupport
+                                    |> moraleDrop
+                                    |> changeMissionLeader
+
+                            oldLeader =
+                                findPlayer afterGame currentLeader.persona
+                                    |> Maybe.withDefault emptyPlayer
+                        in
+                            Expect.equal (List.length oldLeader.speachTokens) (numberOfTokens + 1)
                 ]
             ]
         ]
