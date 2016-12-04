@@ -90,8 +90,8 @@ type SupportTile
     | DoubleRight
 
 
-type SpeachToken
-    = Speach Threat
+type alias SpeachToken =
+    Maybe Speach
 
 
 type Grizzled
@@ -164,5 +164,7 @@ type alias Player =
     , state : PlayerState
     , hardKnocks :
         HardKnockList
+    , speachTokens :
+        List SpeachToken
         -- This should be a list of most 3 and must be HardKnocks
     }

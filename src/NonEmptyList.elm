@@ -57,3 +57,15 @@ add a nel =
 merge : NonEmptyList a -> NonEmptyList a -> NonEmptyList a
 merge a b =
     { head = b.head, rest = List.append b.rest (asList a) }
+
+
+map : (a -> b) -> NonEmptyList a -> NonEmptyList b
+map fn list =
+    let
+        head =
+            fn list.head
+
+        rest =
+            List.map fn list.rest
+    in
+        NonEmptyList head rest

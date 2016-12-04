@@ -40,6 +40,13 @@ nonEmptyListTests =
                         |> NEL.fromList
                         |> Expect.equal (Just (NonEmptyList "a" [ "b", "c" ]))
             ]
+        , describe "map"
+            [ test "applys a function to all elements in a list" <|
+                \() ->
+                    NonEmptyList 1 [ 2 ]
+                        |> NEL.map (\x -> x + 1)
+                        |> Expect.equal (NonEmptyList 2 [ 3 ])
+            ]
         , test "count" <|
             \() ->
                 NonEmptyList "a" [ "b", "c" ]

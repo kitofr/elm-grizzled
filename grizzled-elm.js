@@ -13836,9 +13836,9 @@ var _user$project$Types$Game = F7(
 	function (a, b, c, d, e, f, g) {
 		return {players: a, state: b, missionState: c, trailsPile: d, moraleReserve: e, noMansLand: f, speachTokens: g};
 	});
-var _user$project$Types$Player = F6(
-	function (a, b, c, d, e, f) {
-		return {persona: a, supportTiles: b, missionLeader: c, hand: d, state: e, hardKnocks: f};
+var _user$project$Types$Player = F7(
+	function (a, b, c, d, e, f, g) {
+		return {persona: a, supportTiles: b, missionLeader: c, hand: d, state: e, hardKnocks: f, speachTokens: g};
 	});
 var _user$project$Types$Foo = {ctor: 'Foo'};
 var _user$project$Types$MoraleDrop = {ctor: 'MoraleDrop'};
@@ -13875,9 +13875,6 @@ var _user$project$Types$DoubleRight = {ctor: 'DoubleRight'};
 var _user$project$Types$DoubleLeft = {ctor: 'DoubleLeft'};
 var _user$project$Types$Right = {ctor: 'Right'};
 var _user$project$Types$Left = {ctor: 'Left'};
-var _user$project$Types$Speach = function (a) {
-	return {ctor: 'Speach', _0: a};
-};
 var _user$project$Types$Anselme = {ctor: 'Anselme'};
 var _user$project$Types$Felix = {ctor: 'Felix'};
 var _user$project$Types$Gaston = {ctor: 'Gaston'};

@@ -31,7 +31,7 @@ dealTests =
     describe "Dealing cards"
         [ test "Deal a list of cards to serveral players" <|
             \() ->
-                [ namedPlayer Felix Rain, namedPlayer Lazare Winter ]
+                [ felix, lazare ]
                     |> dealCards [ (threatCard Rain), (threatCard Winter), (threatCard Rain) ]
                     |> List.map .hand
                     |> Expect.equal [ [ (threatCard Rain), (threatCard Rain) ], [ (threatCard Winter) ] ]
@@ -81,8 +81,8 @@ enterMission game =
             game
 
 
-dealSupport : Game -> Game
-dealSupport game =
+handleSupport : Game -> Game
+handleSupport game =
     game
 
 
@@ -171,17 +171,17 @@ emptyPlayer =
 
 namedPlayer : Grizzled -> Threat -> Player
 namedPlayer name luckycharm =
-    (Player (GrizzledCard name luckycharm) [] False [] Playing [])
+    (Player (GrizzledCard name luckycharm) [] False [] Playing [] [])
 
 
 felix : Player
 felix =
-    (Player (GrizzledCard Felix Rain) [] False [] Playing [])
+    (Player (GrizzledCard Felix Rain) [] False [] Playing [] [])
 
 
 lazare : Player
 lazare =
-    (Player (GrizzledCard Lazare Shell) [] True [] Playing [])
+    (Player (GrizzledCard Lazare Shell) [] True [] Playing [] [])
 
 
 twoPlayers : NonEmptyList Player
@@ -193,6 +193,14 @@ threatCard threat =
     ThreatsCard (Card (NonEmptyList threat []) False)
 
 
+findPlayer : Game -> GrizzledCard -> Maybe Player
+findPlayer game persona =
+    game.players
+        |> NEL.asList
+        |> List.filter (\x -> x.persona.name == persona.name)
+        |> List.head
+
+
 game4Trial3MoraleCards : Game
 game4Trial3MoraleCards =
     (Game
@@ -202,8 +210,61 @@ game4Trial3MoraleCards =
         (List.repeat 4 (threatCard Rain))
         (List.repeat 3 (threatCard Winter))
         []
-        []
+        [ Nothing, Nothing, Nothing, Nothing, Nothing ]
     )
+
+
+updatePlayer : PlayerList -> Player -> PlayerList
+updatePlayer list player =
+    NEL.map
+        (\item ->
+            if item.persona.name == player.persona.name then
+                player
+            else
+                item
+        )
+        list
+
+
+updatePlayerTests =
+    describe "Update player"
+        [ test "A player can get a speach token" <|
+            \() ->
+                let
+                    list =
+                        twoPlayers
+
+                    player =
+                        { lazare | speachTokens = [ Nothing ] }
+                in
+                    Expect.equal (updatePlayer list player) (NonEmptyList felix [ player ])
+        ]
+
+
+changeMissionLeader : Game -> Game
+changeMissionLeader game =
+    let
+        currentLeader =
+            missionLeader game
+
+        token =
+            List.head game.speachTokens
+    in
+        case token of
+            Just token ->
+                game
+
+            _ ->
+                game
+
+
+missionLeader : Game -> Player
+missionLeader game =
+    game.players
+        |> NEL.asList
+        |> List.filter (\x -> x.missionLeader)
+        |> List.head
+        |> Maybe.withDefault emptyPlayer
 
 
 missionTests =
@@ -291,11 +352,34 @@ missionTests =
                                 |> enterMission
                                 |> playTurn (Withdraw Left)
                                 |> playTurn (Withdraw Right)
-                                |> dealSupport
+                                |> handleSupport
                                 |> moraleDrop
                     in
                         Expect.equal (List.length game.moraleReserve) (reserve - 3)
-              -- before next mission, last leader gets a token
+            , describe "End of mission"
+                [--test "before next mission, last leader gets a token" <|
+                 --  \() ->
+                 --      let
+                 --          intensity =
+                 --              2
+                 --          game =
+                 --              preparation game4Trial3MoraleCards intensity
+                 --                  |> enterMission
+                 --          currentLeader =
+                 --              missionLeader game
+                 --          numberOfTokens =
+                 --              List.length currentLeader.speachTokens
+                 --          afterGame =
+                 --              game
+                 --                  |> handleSupport
+                 --                  |> moraleDrop
+                 --                  |> changeMissionLeader
+                 --          oldLeader =
+                 --              findPlayer afterGame currentLeader.persona
+                 --                  |> Maybe.withDefault emptyPlayer
+                 --      in
+                 --          Expect.equal (List.length oldLeader.speachTokens) (numberOfTokens + 1)
+                ]
             ]
         ]
 
@@ -307,4 +391,5 @@ all =
         , missionTests
         , dealTests
         , utilTests
+        , updatePlayerTests
         ]
