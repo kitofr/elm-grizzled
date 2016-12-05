@@ -24,7 +24,7 @@ dealCards cards players =
                 (List.length players)
                 cards
     in
-        List.map2 (\p cs -> { p | hand = cs }) players hands
+        List.map2 (\player cards -> { player | hand = cards }) players hands
 
 
 dealTests =
@@ -253,10 +253,10 @@ changeMissionLeader game =
         case token of
             Just token ->
                 let
-                    oldLeader =
+                    previousLeader =
                         { currentLeader | speachTokens = token :: currentLeader.speachTokens }
                 in
-                    { game | players = (updatePlayer game.players oldLeader) }
+                    { game | players = (updatePlayer game.players previousLeader) }
 
             _ ->
                 game
@@ -383,11 +383,11 @@ missionTests =
                                     |> moraleDrop
                                     |> changeMissionLeader
 
-                            oldLeader =
+                            previousLeader =
                                 findPlayer afterGame currentLeader.persona
                                     |> Maybe.withDefault emptyPlayer
                         in
-                            Expect.equal (List.length oldLeader.speachTokens) (numberOfTokens + 1)
+                            Expect.equal (List.length previousLeader.speachTokens) (numberOfTokens + 1)
                 ]
             ]
         ]
