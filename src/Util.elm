@@ -19,3 +19,11 @@ cycleBy n list =
     in
         List.map (\i -> get (i) list)
             (List.range 0 (n - 1))
+
+
+atLeast : Int -> Int -> Int
+atLeast minimum a =
+    if a < minimum then
+        minimum
+    else
+        a
