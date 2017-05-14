@@ -73,7 +73,7 @@ missionTests =
                             NEL.asList game.players
                                 |> List.map (\p -> List.length p.hand)
                     in
-                        Expect.equal cardCountOnHand [ 2, 2 ]
+                        Expect.equal cardCountOnHand [ 2, 1, 1 ]
             , test "The mission ends when all players have withdrawn" <|
                 \() ->
                     let
@@ -81,6 +81,7 @@ missionTests =
                             preparation game4Trial3MoraleCards 2
                                 |> enterMission
                                 |> playTurn (Withdraw Left)
+                                |> playTurn (Withdraw Right)
                                 |> playTurn (Withdraw Right)
                     in
                         Expect.equal game.missionState (Just Support)
@@ -94,7 +95,17 @@ missionTests =
                     in
                         Expect.equal game.missionState
                             (Just TheMission)
-              -- support goes to the player that was given most support
+--            , test "support goes to the player that was given most support" <|
+--                \() ->
+--                    let
+--                        game =
+--                            preparation game4Trial3MoraleCards 2
+--                                |> enterMission
+--                                |> playTurn (Withdraw Left)
+--                                |> playTurn (Withdraw Right)
+--                                |> playTurn (Withdraw Right)
+--                    in
+--                        Expect.equal game.missionState (Just Support)
               -- support can be a tie
             , test "morale drop is equal to the number of cards at hand but at least 3" <|
                 \() ->

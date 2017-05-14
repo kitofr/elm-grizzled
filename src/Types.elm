@@ -36,6 +36,7 @@ type alias MissionIntensity =
 
 
 type alias PlayerList =
+    -- This is not true, should be a list of one missionleader and at least 1 player
     NonEmptyList Player
 
 
@@ -67,6 +68,7 @@ type alias Trap =
 
 type alias Card =
     { threats : NonEmptyList Threat
+    -- Maybe Trap?
     , trap : Trap
     }
 
@@ -122,7 +124,7 @@ type alias Speach =
 
 type alias GrizzledCard =
     { name : Grizzled
-    , luckyCharm : Threat
+    , luckyCharm : LuckyCharm
     }
 
 
@@ -159,12 +161,13 @@ type PlayerState
 type alias Player =
     { persona : GrizzledCard
     , supportTiles : List SupportTile
+    -- This is wrong, only one player can be missionleader
     , missionLeader : MissionLeader
     , hand : List TrialCard
     , state : PlayerState
+    -- This should be a list of most 3 and must be HardKnocks
     , hardKnocks :
         HardKnockList
     , speachTokens :
         List SpeachToken
-        -- This should be a list of most 3 and must be HardKnocks
     }

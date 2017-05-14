@@ -25,9 +25,19 @@ lazare =
     (Player (GrizzledCard Lazare Shell) [] True [] Playing [] [])
 
 
+gustave : Player
+gustave =
+    (Player (GrizzledCard Gustave Winter) [] False [] Playing [] [])
+
+
 twoPlayers : NonEmptyList Player
 twoPlayers =
     NonEmptyList felix [ lazare ]
+
+
+threePlayers : NonEmptyList Player
+threePlayers =
+    NonEmptyList felix [ lazare, gustave ]
 
 
 threatCard threat =
@@ -37,7 +47,7 @@ threatCard threat =
 game4Trial3MoraleCards : Game
 game4Trial3MoraleCards =
     (Game
-        twoPlayers
+        threePlayers
         InWar
         Nothing
         (List.repeat 4 (threatCard Rain))
