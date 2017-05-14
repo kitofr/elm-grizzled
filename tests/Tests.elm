@@ -5,6 +5,7 @@ import UtilTests exposing (utilTests)
 import NonEmptyListTests exposing (nonEmptyListTests)
 import GameStateTests exposing (..)
 import DealTests exposing (..)
+import UpdatePlayerTests exposing (..)
 
 
 all : Test
