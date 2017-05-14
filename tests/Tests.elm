@@ -10,10 +10,12 @@ import UpdatePlayerTests exposing (..)
 
 all : Test
 all =
-    describe "Grizzled"
+    describe "The project"
         [ nonEmptyListTests
-        , missionTests
-        , dealTests
-        , utilTests
-        , updatePlayerTests
+        , describe "The grizzled game" [
+          missionTests
+          , dealTests
+          , utilTests
+          , updatePlayerTests
+          ]
         ]
