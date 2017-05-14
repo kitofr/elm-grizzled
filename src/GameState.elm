@@ -40,10 +40,10 @@ enterMission game =
                             intensity * playerCount
 
                         newCards =
-                            List.take cardsToDistribute game.trailsPile
+                            List.take cardsToDistribute game.trialsPile
 
-                        trailsPile_ =
-                            List.drop cardsToDistribute game.trailsPile
+                        trialsPile_ =
+                            List.drop cardsToDistribute game.trialsPile
 
                         players_ =
                             game.players
@@ -55,7 +55,7 @@ enterMission game =
                             Just p ->
                                 { game
                                     | missionState = Just TheMission
-                                    , trailsPile = trailsPile_
+                                    , trialsPile = trialsPile_
                                     , players = p
                                 }
 
@@ -84,11 +84,11 @@ moraleDrop game =
         moralePile_ =
             List.drop cardsOnHand game.moraleReserve
 
-        trailsPile_ =
-            List.append game.trailsPile cards2Transfer
+        trialsPile_ =
+            List.append game.trialsPile cards2Transfer
     in
         { game
-            | trailsPile = trailsPile_
+            | trialsPile = trialsPile_
             , moraleReserve = moralePile_
         }
 

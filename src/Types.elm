@@ -144,7 +144,7 @@ type alias Game =
     { players : PlayerList
     , state : GameState
     , missionState : Maybe MissionStep
-    , trailsPile : TrialsPile
+    , trialsPile : TrialsPile
     , moraleReserve : MoraleReserve
     , noMansLand : NoMansLand
     , speachTokens : List SpeachToken

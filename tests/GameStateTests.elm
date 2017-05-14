@@ -43,7 +43,7 @@ missionTests =
                         Expect.equal preparedGame.missionState (Just (Preparation intensity))
             ]
         , describe "The mission"
-            [ test "The mission starts with a prepared game" <|
+            [ test "starts with a prepared game" <|
                 \() ->
                     let
                         inMissionGame =
@@ -51,7 +51,7 @@ missionTests =
                                 |> enterMission
                     in
                         Expect.equal inMissionGame.missionState (Just TheMission)
-            , test "entering a mission all players gets cards from the trails pile" <|
+            , test "entering a mission all players gets cards from the trials pile" <|
                 \() ->
                     let
                         intensity =
@@ -61,7 +61,7 @@ missionTests =
                             preparation game4Trial3MoraleCards intensity
                                 |> enterMission
                     in
-                        Expect.equal (List.length inMissionGame.trailsPile) ((List.length game4Trial3MoraleCards.trailsPile) - intensity * 2)
+                        Expect.equal (List.length inMissionGame.trialsPile) ((List.length game4Trial3MoraleCards.trialsPile) - intensity * 2)
             , test "hand size of players have increased with the mission intensitiy number of cards" <|
                 \() ->
                     let
