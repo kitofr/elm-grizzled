@@ -110,11 +110,9 @@ playTurn action game =
                 -- Should be NEL.all and update at position
                 rest =
                     NEL.drop 1 game.players
-                      |> Debug.log "rest"
 
                 players_ =
                     NEL.add player_ rest
-                      |> Debug.log "players_"
 
                 allWithdrawn =
                     NEL.asList players_
