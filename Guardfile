@@ -1,4 +1,6 @@
-guard 'kjell', cmd: "elm-test", :all_on_start => true do
+ignore %r{^tests/Doc/}, /elm-stuff/
+
+guard 'kjell', cmd: "elm-doc-test && elm-test", :all_on_start => true do
   watch(%r{src/.+\.elm$})
   watch(%r{tests/.+\.elm$})
 end
