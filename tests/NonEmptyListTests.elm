@@ -5,7 +5,7 @@ import List exposing (..)
 import Expect
 import NonEmptyList as NEL exposing (..)
 
-
+-- This should be more or less moved to doctests
 nonEmptyListTests =
     describe "Non empty list"
         [ test "has at least one item" <|
