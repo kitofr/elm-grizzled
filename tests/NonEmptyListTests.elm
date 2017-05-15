@@ -52,6 +52,13 @@ nonEmptyListTests =
                         |> NEL.map (\x -> x - 1)
                         |> Expect.equal (NonEmptyList 0 [])
             ]
+--        , describe "all"
+--            [ test "one item" <|
+--                \() ->
+--                    NonEmptyList 1 []
+--                        |> NEL.all (\x -> x == 1)
+--                        |> Expect.equal True
+--            ]
         , test "count" <|
             \() ->
                 NonEmptyList "a" [ "b", "c" ]

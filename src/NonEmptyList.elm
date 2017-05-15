@@ -69,3 +69,29 @@ map fn list =
             List.map fn list.rest
     in
         NonEmptyList head rest
+
+
+all : (a -> Bool) -> NonEmptyList a -> Bool
+all fn list =
+    not (any (not << fn) list)
+
+
+{-| Returns True if any elements satisfies the function
+    >>> any (\x -> x == 1) (NonEmptyList 1 [])
+    True
+    >>> any (\x -> x == 1) (NonEmptyList 0 [])
+    False
+    >>> any (\x -> x == 1) (NonEmptyList 0 [1])
+    True
+-}
+any : (a -> Bool) -> NonEmptyList a -> Bool
+any fn list =
+    if fn list.head then
+        True
+    else
+        case list.rest of
+            [] ->
+                False
+
+            x :: xs ->
+                any fn (NonEmptyList x xs)
