@@ -71,12 +71,22 @@ map fn list =
         NonEmptyList head rest
 
 
+{-| Returns True if all elements satisfies the predicate
+    >>> all (\x -> x == 1) (NonEmptyList 1 [])
+    True
+    >>> all (\x -> x == 1) (NonEmptyList 0 [])
+    False
+    >>> all (\x -> x == 1) (NonEmptyList 0 [1])
+    False
+    >>> all (\x -> x == 1) (NonEmptyList 1 [1])
+    True
+-}
 all : (a -> Bool) -> NonEmptyList a -> Bool
 all fn list =
     not (any (not << fn) list)
 
 
-{-| Returns True if any elements satisfies the function
+{-| Returns True if any elements satisfies the predicate
     >>> any (\x -> x == 1) (NonEmptyList 1 [])
     True
     >>> any (\x -> x == 1) (NonEmptyList 0 [])
