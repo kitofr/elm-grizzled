@@ -49,11 +49,52 @@ type alias MoraleReserve =
 
 
 type MissionStep
-    = Preparation MissionIntensity
+    = Preparation -- MissionIntensity
     | TheMission
+    | Success
+    | Failure
     | Support
+    | Victory
+    | Defeat
     | MoraleDrop
+    | AssignMissionLeader
 
+type Event =
+  Ready
+    | AllWithdrawn
+    | SomeFailed
+    | Peace
+    | FourOrMoreHardknocks
+    | Monument
+
+proceed : MissionStep -> Event -> MissionStep
+proceed state event =
+  case state of
+    Preparation -> 
+      case event of
+        Ready -> TheMission
+        _ -> state
+    TheMission ->
+      case event of
+        AllWithdrawn -> Success
+        SomeFailed -> Failure
+        _ -> state
+    Success -> Support
+    Failure -> Support
+    Support ->
+      case event of
+      Peace -> Victory
+      FourOrMoreHardknocks -> Defeat
+      _ -> MoraleDrop
+    MoraleDrop ->
+      case event of
+        Monument -> Defeat
+        _ -> AssignMissionLeader
+    AssignMissionLeader -> Preparation
+    Victory -> Victory
+    Defeat -> Defeat
+
+                              
 
 type TurnAction
     = Play TrialCard
@@ -136,16 +177,10 @@ type alias HardKnockList =
     List Hardknock
 
 
-type GameState
-    = InWar
-    | Peace
-    | Monument
-
-
 type alias Game =
     { players : PlayerList
-    , state : GameState
     , missionState : Maybe MissionStep
+    , missionIntensity : Maybe MissionIntensity
     , trialsPile : TrialsPile
     , moraleReserve : MoraleReserve
     , noMansLand : NoMansLand

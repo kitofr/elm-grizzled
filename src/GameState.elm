@@ -7,7 +7,7 @@ import Util exposing (cycleBy, atLeast)
 
 preparation : Game -> MissionIntensity -> Game
 preparation game intensity =
-    { game | missionState = Just (Preparation intensity) }
+    { game | missionState = Just (Preparation), missionIntensity = Just (intensity) }
 
 
 dealCards : List TrialCard -> List Player -> List Player
@@ -31,36 +31,41 @@ enterMission game =
     case game.missionState of
         Just state ->
             case state of
-                Preparation intensity ->
-                    let
-                        playerCount =
-                            List.length (asList game.players)
+                Preparation ->
+                    case game.missionIntensity of
+                        Just intensity ->
+                            let
+                                playerCount =
+                                    List.length (asList game.players)
 
-                        cardsToDistribute =
-                            intensity * playerCount
+                                cardsToDistribute =
+                                    intensity * playerCount
 
-                        newCards =
-                            List.take cardsToDistribute game.trialsPile
+                                newCards =
+                                    List.take cardsToDistribute game.trialsPile
 
-                        trialsPile_ =
-                            List.drop cardsToDistribute game.trialsPile
+                                trialsPile_ =
+                                    List.drop cardsToDistribute game.trialsPile
 
-                        players_ =
-                            game.players
-                                |> NEL.asList
-                                |> dealCards newCards
-                                |> NEL.fromList
-                    in
-                        case players_ of
-                            Just p ->
-                                { game
-                                    | missionState = Just TheMission
-                                    , trialsPile = trialsPile_
-                                    , players = p
-                                }
+                                players_ =
+                                    game.players
+                                        |> NEL.asList
+                                        |> dealCards newCards
+                                        |> NEL.fromList
+                            in
+                                case players_ of
+                                    Just p ->
+                                        { game
+                                            | missionState = Just TheMission
+                                            , trialsPile = trialsPile_
+                                            , players = p
+                                        }
 
-                            Nothing ->
-                                game
+                                    Nothing ->
+                                        game
+
+                        Nothing ->
+                            game
 
                 _ ->
                     game

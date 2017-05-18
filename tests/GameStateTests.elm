@@ -9,10 +9,44 @@ import NonEmptyList as NEL exposing (..)
 import GameState exposing (..)
 import TestHelpers exposing (..)
 
+type State = S0 | S1 | S2
+type Event = A | B
+
+accepts : State -> (List Event) -> Bool
+accepts state action =
+  case state of
+    S0 -> case action of
+      A :: xs -> accepts S1 xs
+      B :: xs -> accepts S2 xs
+      _ -> False
+    S1 -> case action of
+      A :: xs -> accepts S2 xs
+      B :: xs -> accepts S0 xs
+      _ -> False
+    S2 -> case action of
+      A :: xs -> accepts S0 xs
+      B :: xs -> accepts S2 xs
+      _ -> True
+
+decide : (List Event) -> Bool
+decide = accepts S0
+
 
 missionTests =
     describe "Mission rules"
-        [ describe "Preparation"
+        [ describe "State machine"
+          [
+            test "[A,A,A] should be False" <|
+              \() ->
+                Expect.equal (decide [A, A, A]) False
+          , test "[A,A,A,A,B,B,A,A,A] should be True" <|
+              \() ->
+                Expect.equal (decide [A,A,A,A,B,B,A,A,A]) True
+          , test "[B,A,B,A,B,A] should be False" <|
+              \() ->
+                Expect.equal (decide [B,A,B,A,B,A]) False
+          ]
+        , describe "Preparation"
             [ test "A game starts with preparation " <|
                 \() ->
                     let
@@ -25,7 +59,7 @@ missionTests =
                         preparedGame =
                             preparation game intensity
                     in
-                        Expect.equal preparedGame.missionState (Just (Preparation intensity))
+                        Expect.equal preparedGame.missionState (Just (Preparation))
             ]
         , describe "The mission"
             [ test "starts with a prepared game" <|

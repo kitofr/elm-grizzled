@@ -48,7 +48,7 @@ game4Trial3MoraleCards : Game
 game4Trial3MoraleCards =
     (Game
         threePlayers
-        InWar
+        Nothing
         Nothing
         (List.repeat 4 (threatCard Rain))
         (List.repeat 3 (threatCard Winter))
