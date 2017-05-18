@@ -28,52 +28,44 @@ handleSupport game =
 
 enterMission : Game -> Game
 enterMission game =
-  let { missionState, missionIntensity } = game
-  in
-    case missionState of
-        Just state ->
-            case state of
-                Preparation ->
-                    case missionIntensity of
-                        Just intensity ->
-                            let
-                                playerCount =
-                                    List.length (asList game.players)
+    let
+        { missionState, missionIntensity } =
+            game
+    in
+        case ( missionState, missionIntensity ) of
+            ( Just Preparation, Just intensity ) ->
+                let
+                    playerCount =
+                        List.length (asList game.players)
 
-                                cardsToDistribute =
-                                    intensity * playerCount
+                    cardsToDistribute =
+                        intensity * playerCount
 
-                                newCards =
-                                    List.take cardsToDistribute game.trialsPile
+                    newCards =
+                        List.take cardsToDistribute game.trialsPile
 
-                                trialsPile_ =
-                                    List.drop cardsToDistribute game.trialsPile
+                    trialsPile_ =
+                        List.drop cardsToDistribute game.trialsPile
 
-                                players_ =
-                                    game.players
-                                        |> NEL.asList
-                                        |> dealCards newCards
-                                        |> NEL.fromList
-                            in
-                                case players_ of
-                                    Just p ->
-                                        { game
-                                            | missionState = Just TheMission
-                                            , trialsPile = trialsPile_
-                                            , players = p
-                                        }
-
-                                    Nothing ->
-                                        game
+                    players_ =
+                        game.players
+                            |> NEL.asList
+                            |> dealCards newCards
+                            |> NEL.fromList
+                in
+                    case players_ of
+                        Just p ->
+                            { game
+                                | missionState = Just TheMission
+                                , trialsPile = trialsPile_
+                                , players = p
+                            }
 
                         Nothing ->
                             game
 
-                _ ->
-                    game
-
-        _ ->
-            game
+            _ ->
+                game
 
 
 moraleDrop : Game -> Game
