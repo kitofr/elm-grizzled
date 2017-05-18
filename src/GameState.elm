@@ -28,11 +28,13 @@ handleSupport game =
 
 enterMission : Game -> Game
 enterMission game =
-    case game.missionState of
+  let { missionState, missionIntensity } = game
+  in
+    case missionState of
         Just state ->
             case state of
                 Preparation ->
-                    case game.missionIntensity of
+                    case missionIntensity of
                         Just intensity ->
                             let
                                 playerCount =
